@@ -14,6 +14,7 @@ from products.serializers import ProductSerializer
 #3-return "json" data to the client  
 
 #DRF API View
+'''
 @api_view(["GET"])
 def api_home(request, *args, **kwargs):
     instance = Product.objects.all().order_by("?").first()
@@ -22,3 +23,16 @@ def api_home(request, *args, **kwargs):
         # data = model_to_dict(instance, fields=['id', 'title', 'price', 'sale_price'])
         data = ProductSerializer(instance).data
     return Response(data)
+'''
+@api_view(['POST'])
+def api_home(request, *args, **kwargs):
+    """
+    DRF API View
+    """
+    serializer = ProductSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        # instance = serializer.save()
+        # instance = form.save()
+        print(serializer.data)
+        return Response(serializer.data)
+    return Response({"invalid": "not good data"}, status=400)
